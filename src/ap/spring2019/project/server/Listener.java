@@ -1,6 +1,9 @@
 package ap.spring2019.project.server;
 
 import ap.spring2019.project.logic.Account;
+import ap.spring2019.project.server.Server;
+import ap.spring2019.project.server.Game;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

@@ -1,5 +1,6 @@
 package ap.spring2019.project.chat;
 
+import ap.spring2019.project.chat.Message;
 import java.util.ArrayList;
 
 public class GlobalChat {
