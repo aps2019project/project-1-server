@@ -110,6 +110,18 @@ public class Server {
         }
     }
 
+    static synchronized String getUserName(Socket socket) {
+        synchronized (onlineUsers) {
+            if (!onlineUsers.containsValue(socket))
+                return "";
+            for (Map.Entry<String, Socket> user: onlineUsers.entrySet()) {
+                if (user.getValue().equals(socket))
+                    return user.getKey();
+            }
+        }
+        return "";
+    }
+
     private static void deleteOfflineUsers() {
         synchronized (onlineUsers) {
             for (Map.Entry<String, Socket> user : onlineUsers.entrySet()) {
@@ -118,5 +130,7 @@ public class Server {
             }
         }
     }
+
+
 
 }

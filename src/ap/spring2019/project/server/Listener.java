@@ -33,7 +33,7 @@ class Listener implements Runnable {
 
     @Override
     public void run() {
-        while (Thread.currentThread().isAlive()) {
+        while (!Thread.currentThread().isInterrupted()) {
             String command = getCommand();
             if (command.matches("login \\w+ \\w+")) {
                 loginUser(command.split(" ")[1], command.split(" ")[2]);
@@ -45,7 +45,16 @@ class Listener implements Runnable {
                 sendOnlineUsers();
             } else if (command.matches("get all accounts")) {
                 sendData(Account.getAccounts());
+            } else if (command.matches("logout")) {
+                logOutUser();
             }
+        }
+    }
+
+    private void logOutUser() {
+        String username = Server.getUserName(socket);
+        if (!username.equals("")) {
+            Server.deleteUser(username);
         }
     }
 
@@ -63,7 +72,9 @@ class Listener implements Runnable {
         try {
             return inputStream.readUTF();
         } catch (IOException e) {
+            logOutUser();
             e.printStackTrace();
+            Thread.currentThread().interrupt();
             return "";
         }
     }
