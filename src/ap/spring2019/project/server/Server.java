@@ -2,6 +2,8 @@ package ap.spring2019.project.server;
 
 
 import ap.spring2019.project.logic.Account;
+import ap.spring2019.project.server.Listener;
+import ap.spring2019.project.server.Game;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -79,7 +81,7 @@ public class Server {
         }
     }
 
-    static synchronized void addGame(Game game) {
+    static synchronized void addGame(ap.spring2019.project.server.Game game) {
         synchronized (games) {
             games.add(game);
         }
