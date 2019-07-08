@@ -1,12 +1,14 @@
 package ap.spring2019.project.server;
 
 import ap.spring2019.project.logic.Account;
+import ap.spring2019.project.server.Server;
+import ap.spring2019.project.server.Game;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import server.CardType;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -49,6 +51,10 @@ class Listener implements Runnable {
                 sendData(Account.getAccounts());
             } else if (command.matches("get online users")) {
                 sendData(new HashSet<>(Server.getOnlineUsers().keySet()));
+            } else if (command.matches("Create Card \\w+")) {
+                getCardFile(CardType.valueOf(command.split(" ")[2]));
+            } else if (command.matches("Send Card File \\w+")){
+                sendData(readFile(command.split(" ")[3]));
             }
         }
     }
@@ -124,5 +130,49 @@ class Listener implements Runnable {
         sendData("Done");
         sendData(Account.findAccount(userName));
         Account.saveAccountDetails();
+    }
+
+    public void getCardFile(CardType type){
+        try {
+            FileWriter fileWriter;
+            switch (type) {
+                case HERO:
+                    fileWriter = new FileWriter(new File("Heroes.csv"));
+                    break;
+                case MINION:
+                    fileWriter = new FileWriter(new File("Minions.csv"));
+                    break;
+                case SPELL:
+                    fileWriter = new FileWriter(new File("Spells.csv"));
+                    break;
+                default:
+                    fileWriter = new FileWriter(new File("Items.csv"));
+                    break;
+            }
+            String data = getCommand();
+            fileWriter.write(data);
+            fileWriter.flush();
+            fileWriter.close();
+
+        }catch (IOException i){
+            i.printStackTrace();
+        }
+    }
+
+    public String readFile(String cardType) {
+        try {
+            InputStream is = new FileInputStream(cardType +".csv");
+            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+            String line = buf.readLine();
+            StringBuilder sb = new StringBuilder();
+            while (line != null) {
+                sb.append(line).append("\n");
+                line = buf.readLine();
+            }
+            return sb.toString();
+        } catch (IOException i){
+            i.printStackTrace();
+        }
+        return null;
     }
 }
