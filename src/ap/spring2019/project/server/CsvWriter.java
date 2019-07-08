@@ -40,4 +40,8 @@ public class CsvWriter {
             i.printStackTrace();
         }
     }
+
+    public static void updateStock(String name, int stock){
+
+    }
 }
