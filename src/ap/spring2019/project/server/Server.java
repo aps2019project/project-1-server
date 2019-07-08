@@ -5,9 +5,10 @@ import ap.spring2019.project.logic.Account;
 import ap.spring2019.project.server.Listener;
 import ap.spring2019.project.server.Game;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.InputStreamReader;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +26,6 @@ public class Server {
     static {
         try {
             server = new ServerSocket(PORT);
-            System.out.println(server.getInetAddress());
-            System.out.println(server.getLocalSocketAddress());
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
@@ -38,6 +37,37 @@ public class Server {
         Account.readAccountDetails();
         ExecutorService serverSocketAdder = Executors.newSingleThreadExecutor();
         ExecutorService offlineUserGrabber = Executors.newSingleThreadExecutor();
+        ExecutorService ipFinder = Executors.newSingleThreadExecutor();
+
+        ipFinder.submit(() -> {
+            InetAddress localhost = null;
+            try {
+                localhost = InetAddress.getLocalHost();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+            assert localhost != null;
+            System.out.println("System IP Address : " +
+                    (localhost.getHostAddress()).trim());
+
+            String systemipaddress = "";
+            try
+            {
+                URL url_name = new URL("http://bot.whatismyipaddress.com");
+
+                BufferedReader sc =
+                        new BufferedReader(new InputStreamReader(url_name.openStream()));
+
+                systemipaddress = sc.readLine().trim();
+            }
+            catch (Exception e)
+            {
+                systemipaddress = "Cannot Execute Properly";
+            }
+            System.out.println("Public IP Address: " + systemipaddress +"\n");
+    });
+
+        ipFinder.shutdown();
 
         serverSocketAdder.submit(() -> {
             while (Thread.currentThread().isAlive()) {
