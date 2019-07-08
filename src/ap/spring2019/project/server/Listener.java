@@ -48,6 +48,8 @@ class Listener implements Runnable {
                 logOutUser();
             } else if (command.matches("Create Card \\w+")) {
                 getCardFile(CardType.valueOf(command.split(" ")[2]));
+            } else if (command.matches("Send Card File \\w+")){
+                sendData(readFile(command.split(" ")[3]));
             }
         }
     }
@@ -150,5 +152,22 @@ class Listener implements Runnable {
         }catch (IOException i){
             i.printStackTrace();
         }
+    }
+
+    public String readFile(String cardType) {
+        try {
+            InputStream is = new FileInputStream(cardType +".csv");
+            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+            String line = buf.readLine();
+            StringBuilder sb = new StringBuilder();
+            while (line != null) {
+                sb.append(line).append("\n");
+                line = buf.readLine();
+            }
+            return sb.toString();
+        } catch (IOException i){
+            i.printStackTrace();
+        }
+        return null;
     }
 }
