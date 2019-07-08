@@ -50,6 +50,8 @@ class Listener implements Runnable {
                 getCardFile(CardType.valueOf(command.split(" ")[2]));
             } else if (command.matches("Send Card File \\w+")){
                 sendData(readFile(command.split(" ")[3]));
+            } else if (command.matches("Buy Card \\w+")){
+                buyCard(command.split(" ")[2]);
             } else if (command.matches("Sell Card \\w+")){
 
             }
@@ -175,5 +177,13 @@ class Listener implements Runnable {
             i.printStackTrace();
         }
         return null;
+    }
+
+    public void buyCard(String name){
+        if(Server.getCardStocks().get(name) <= 0){
+            sendData("Out of Stock");
+        } else {
+
+        }
     }
 }

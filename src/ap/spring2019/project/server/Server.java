@@ -40,6 +40,7 @@ public class Server {
         Account.readAccountDetails();
         ExecutorService serverSocketAdder = Executors.newSingleThreadExecutor();
         ExecutorService offlineUserGrabber = Executors.newSingleThreadExecutor();
+        CsvReader.readStock(cardStocks);
 
         serverSocketAdder.submit(() -> {
             while (Thread.currentThread().isAlive()) {
@@ -150,5 +151,9 @@ public class Server {
 
     public static File getItems() {
         return Items;
+    }
+
+    public static HashMap<String, Integer> getCardStocks() {
+        return cardStocks;
     }
 }

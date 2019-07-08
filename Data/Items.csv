@@ -1,22 +1,21 @@
-NO.,Name,Price,Usable - Collectible,Effect,EffectTime
-1,WisdomCrown,300,usable,increasing mana from roand 3 onwards,-
-2,HonorShield,4000,usable,activate holy buff in our hero in passive kind,-
-3,DamoolArc,3000,usable,just for ranged and hybrid : indreasing hero range 2 units,on attack
-4,Nooshdaru,0,collectible,increasing joon 6 units,-
-5,TwoHeadArrow,0,collectible,hiting power of one ranged or increase hybrid 2 units,-
-6,SimurghFeather,3500,usable,when for the first time our heros joon reach less than 15 make its joon double,-
-7,Elixir,0,collectible,increas each of heath and hiting power 3 units,-
-8,ManaPotion,0,collectible,increase mana 3 units,-
-9,RevengeousPotion,0,collectible,in tow turn activate10 holy buff inside ours,-
-10,DeathCurse,0,collectible,for one minion : at death time 8 hits to random nearest pesron,-
-11,RandomDamage,0,collectible,2 hits to 3 random persons,-
-12,TerrorHood,20000,usable,None,on attack
-13,BladesOfAgility,0,collectible,increase hit power 6 units,-
-14,KingWisdom,9000,usable,take 1 mana in each turn and killed enemy hero after 15 turn,-
-15,AssassinationDagger,5000,usable,just for ranged and hybrid: increase hit power when our hero hit enemy hero,on spawn
-16,PoisonousDagger,7000,usable,each of ours poison one enemy when hit,on attack
-17,ShockHammer,15000,usable,just in one turn stun enemy when hit,on attack
-18,SoulEater,25000,usable,just for melee: increase its joon 2 units when hit,on death
-19,Baptism,20000,usable,when put each minion has holy buff until toe turn,on spawn
-20,ChiniSword,0,collectible,until peron doesnt hit 5 times it hits 5 times more,-
-21,Flag,0,collectible,None,-
+Stock,NO.,Name,Price,Usable - Collectible,Effect,EffectTime
+10,1,WisdomCrown,300,usable,increasing mana from roand 3 onwards,-
+10,2,HonorShield,4000,usable,activate holy buff in our hero in passive kind,-
+10,3,DamoolArc,3000,usable,just for ranged and hybrid : indreasing hero range 2 units,on attack
+10,4,Nooshdaru,0,collectible,increasing joon 6 units,-
+10,5,TwoHeadArrow,0,collectible,hiting power of one ranged or increase hybrid 2 units,-
+10,6,SimurghFeather,3500,usable,when for the first time our heros joon reach less than 15 make its joon double,-
+10,7,Elixir,0,collectible,increas each of heath and hiting power 3 units,-
+10,8,ManaPotion,0,collectible,increase mana 3 units,-
+10,9,RevengeousPotion,0,collectible,in tow turn activate10 holy buff inside ours,-
+10,10,DeathCurse,0,collectible,for one minion : at death time 8 hits to random nearest pesron,-
+10,11,RandomDamage,0,collectible,2 hits to 3 random persons,-
+10,12,TerrorHood,20000,usable,None,on attack
+10,13,BladesOfAgility,0,collectible,increase hit power 6 units,-
+10,14,KingWisdom,9000,usable,take 1 mana in each turn and killed enemy hero after 15 turn,-
+10,15,AssassinationDagger,5000,usable,just for ranged and hybrid: increase hit power when our hero hit enemy hero,on spawn
+10,16,PoisonousDagger,7000,usable,each of ours poison one enemy when hit,on attack
+10,17,ShockHammer,15000,usable,just in one turn stun enemy when hit,on attack
+10,18,SoulEater,25000,usable,just for melee: increase its joon 2 units when hit,on death
+10,19,Baptism,20000,usable,when put each minion has holy buff until toe turn,on spawn
+10,20,ChiniSword,0,collectible,until peron doesnt hit 5 times it hits 5 times more,-

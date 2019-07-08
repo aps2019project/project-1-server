@@ -1,16 +1,16 @@
-NO.,Name,Price,Health Point,Attack Power,Type of Attack,Attack Range,Spell,MP,Cool Down,,,,,,
-1,WhiteDemon,8000,50,4,melee,0,Apply power buff with 4 point additional attack damage on himself,1,2,,,,,,
-2,Simorgh,9000,50,4,melee,0,Make 8 cell around firable and apply holy buff on himself for 2 round,3,8,,,,,,
-3,Dragon,8000,50,4,melee,0,Disarm one person,0,1,,,,,,
-4,Rakhsh,8000,50,4,melee,0,Stun one enemy for 1 round,1,2,,,,,,
-5,Zahack,10000,50,4,melee,0,Add 2 snakes with 1/1 randomly around himself,1,3,,,,,,
-6,Kave,8000,50,4,melee,0,Make one cell saint for 3 turns,1,3,,,,,,
-7,Arash,10000,30,2,ranged,6,Add 4 point to all minions in hero's row,2,2,,,,,,
-8,Afsane,11000,40,3,ranged,3,Dispel one enemy,1,2,,,,,,
-9,Esfandiar,12000,35,3,hybrid,3,Have 3 passive holy buff,0,1,,,,,,
-10,Rostam,8000,55,7,hybrid,4,None,0,0,,,,,,
-1,AbolFazl,1000,20,20,melee,0,fdfd,2,2,poison,1,0,2,friend,
-2,allah,1000,30,30,melee,0,akbar,2,2,power,hp,10,0,2,friend
-2,sina,1000,30,3,melee,0,chiz,1,1,power,hp,10,1,1,friend
-5,name,1000,1,1,melee,0,buffname,1,1,holy,1,1,1,enemy
-1,alireza,1000,2,2,melee,0,allahoakbar,2,2,power,ap,2,2,2,friend
+Stock,NO.,Name,Price,Health Point,Attack Power,Type of Attack,Attack Range,Spell,MP,Cool Down,,,,,,
+10,1,WhiteDemon,8000,50,4,melee,0,Apply power buff with 4 point additional attack damage on himself,1,2,,,,,,
+10,2,Simorgh,9000,50,4,melee,0,Make 8 cell around firable and apply holy buff on himself for 2 round,3,8,,,,,,
+10,3,Dragon,8000,50,4,melee,0,Disarm one person,0,1,,,,,,
+10,4,Rakhsh,8000,50,4,melee,0,Stun one enemy for 1 round,1,2,,,,,,
+10,5,Zahack,10000,50,4,melee,0,Add 2 snakes with 1/1 randomly around himself,1,3,,,,,,
+10,6,Kave,8000,50,4,melee,0,Make one cell saint for 3 turns,1,3,,,,,,
+10,7,Arash,10000,30,2,ranged,6,Add 4 point to all minions in hero's row,2,2,,,,,,
+10,8,Afsane,11000,40,3,ranged,3,Dispel one enemy,1,2,,,,,,
+10,9,Esfandiar,12000,35,3,hybrid,3,Have 3 passive holy buff,0,1,,,,,,
+10,10,Rostam,8000,55,7,hybrid,4,None,0,0,,,,,,
+10,1,AbolFazl,1000,20,20,melee,0,fdfd,2,2,poison,1,0,2,friend,
+10,2,allah,1000,30,30,melee,0,akbar,2,2,power,hp,10,0,2,friend
+10,2,sina,1000,30,3,melee,0,chiz,1,1,power,hp,10,1,1,friend
+10,5,name,1000,1,1,melee,0,buffname,1,1,holy,1,1,1,enemy,
+10,1,alireza,1000,2,2,melee,0,allahoakbar,2,2,power,ap,2,2,2,friend
