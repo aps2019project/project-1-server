@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -33,6 +34,7 @@ public class Server {
         Account.readAccountDetails();
         ExecutorService serverSocketAdder = Executors.newSingleThreadExecutor();
         ExecutorService offlineUserGrabber = Executors.newSingleThreadExecutor();
+        ExecutorService informationListener = Executors.newSingleThreadExecutor();
 
         serverSocketAdder.submit(() -> {
             while (Thread.currentThread().isAlive()) {
@@ -46,8 +48,19 @@ public class Server {
         });
 
         offlineUserGrabber.submit(() -> {
-           while (Thread.currentThread().isAlive())
-               deleteOfflineUsers();
+            while (Thread.currentThread().isAlive())
+                deleteOfflineUsers();
+        });
+
+        informationListener.submit(() -> {
+            Scanner scanner = new Scanner(System.in);
+            while (scanner.hasNext()) {
+                String command = scanner.nextLine();
+                if (command.matches("online users"))
+                    System.out.println(onlineUsers);
+                else if (command.matches("all users"))
+                    System.out.println(Account.getAccounts());
+            }
         });
     }
 
@@ -74,6 +87,7 @@ public class Server {
             try {
                 return onlineUsers.remove(userName);
             } catch (Exception e) {
+                e.printStackTrace();
                 return null;
             }
         }
@@ -118,6 +132,20 @@ public class Server {
             }
         }
         return "";
+    }
+
+    static synchronized ArrayList<Account> getOnlineUsersArrayList() {
+        synchronized (onlineUsers) {
+            ArrayList<Account> result = new ArrayList<>();
+            for (String username: onlineUsers.keySet()) {
+                try {
+                    result.add(Account.findAccount(username));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return result;
+        }
     }
 
     private static void deleteOfflineUsers() {

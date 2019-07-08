@@ -9,6 +9,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 class Listener implements Runnable {
 
@@ -44,6 +45,10 @@ class Listener implements Runnable {
                 sendData(Account.getAccounts());
             } else if (command.matches("logout")) {
                 logOutUser();
+            } else if (command.matches("get accounts")) {
+                sendData(Account.getAccounts());
+            } else if (command.matches("get online users")) {
+                sendData(new HashSet<>(Server.getOnlineUsers().keySet()));
             }
         }
     }
