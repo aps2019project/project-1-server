@@ -13,3 +13,4 @@ NO.,Name,Price,Health Point,Attack Power,Type of Attack,Attack Range,Spell,MP,Co
 2,allah,1000,30,30,melee,0,akbar,2,2,power,hp,10,0,2,friend
 2,sina,1000,30,3,melee,0,chiz,1,1,power,hp,10,1,1,friend
 5,name,1000,1,1,melee,0,buffname,1,1,holy,1,1,1,enemy
+1,alireza,1000,2,2,melee,0,allahoakbar,2,2,power,ap,2,2,2,friend
