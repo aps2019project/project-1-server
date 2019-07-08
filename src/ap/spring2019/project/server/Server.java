@@ -26,6 +26,7 @@ public class Server {
     static {
         try {
             server = new ServerSocket(PORT);
+            foundInternetIP();
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
@@ -37,37 +38,6 @@ public class Server {
         Account.readAccountDetails();
         ExecutorService serverSocketAdder = Executors.newSingleThreadExecutor();
         ExecutorService offlineUserGrabber = Executors.newSingleThreadExecutor();
-        ExecutorService ipFinder = Executors.newSingleThreadExecutor();
-
-        ipFinder.submit(() -> {
-            InetAddress localhost = null;
-            try {
-                localhost = InetAddress.getLocalHost();
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
-            assert localhost != null;
-            System.out.println("System IP Address : " +
-                    (localhost.getHostAddress()).trim());
-
-            String systemipaddress = "";
-            try
-            {
-                URL url_name = new URL("http://bot.whatismyipaddress.com");
-
-                BufferedReader sc =
-                        new BufferedReader(new InputStreamReader(url_name.openStream()));
-
-                systemipaddress = sc.readLine().trim();
-            }
-            catch (Exception e)
-            {
-                systemipaddress = "Cannot Execute Properly";
-            }
-            System.out.println("Public IP Address: " + systemipaddress +"\n");
-    });
-
-        ipFinder.shutdown();
 
         serverSocketAdder.submit(() -> {
             while (Thread.currentThread().isAlive()) {
@@ -177,6 +147,34 @@ public class Server {
                     onlineUsers.remove(user.getKey());
             }
         }
+    }
+
+    private static void foundInternetIP() {
+        InetAddress localhost = null;
+        try {
+            localhost = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        assert localhost != null;
+        System.out.println("System IP Address : " +
+                (localhost.getHostAddress()).trim());
+
+        String systemipaddress = "";
+        try
+        {
+            URL url_name = new URL("http://bot.whatismyipaddress.com");
+
+            BufferedReader sc =
+                    new BufferedReader(new InputStreamReader(url_name.openStream()));
+
+            systemipaddress = sc.readLine().trim();
+        }
+        catch (Exception e)
+        {
+            systemipaddress = "Cannot Execute Properly";
+        }
+        System.out.println("Public IP Address: " + systemipaddress +"\n");
     }
 
 
