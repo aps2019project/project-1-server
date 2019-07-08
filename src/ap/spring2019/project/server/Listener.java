@@ -50,6 +50,8 @@ class Listener implements Runnable {
                 getCardFile(CardType.valueOf(command.split(" ")[2]));
             } else if (command.matches("Send Card File \\w+")){
                 sendData(readFile(command.split(" ")[3]));
+            } else if (command.matches("Sell Card \\w+")){
+
             }
         }
     }
@@ -129,25 +131,29 @@ class Listener implements Runnable {
 
     public void getCardFile(CardType type){
         try {
+            File file;
             FileWriter fileWriter;
             switch (type) {
                 case HERO:
-                    fileWriter = new FileWriter(new File("Heroes.csv"));
+                    file = Server.getHeroes();
                     break;
                 case MINION:
-                    fileWriter = new FileWriter(new File("Minions.csv"));
+                    file = Server.getMinions();
                     break;
                 case SPELL:
-                    fileWriter = new FileWriter(new File("Spells.csv"));
+                    file = Server.getSpells();
                     break;
                 default:
-                    fileWriter = new FileWriter(new File("Items.csv"));
+                    file = Server.getItems();
                     break;
             }
-            String data = getCommand();
-            fileWriter.write(data);
-            fileWriter.flush();
-            fileWriter.close();
+            synchronized (file) {
+                fileWriter = new FileWriter(file);
+                String data = getCommand();
+                fileWriter.write(data);
+                fileWriter.flush();
+                fileWriter.close();
+            }
 
         }catch (IOException i){
             i.printStackTrace();

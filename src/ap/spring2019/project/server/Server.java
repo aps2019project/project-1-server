@@ -5,6 +5,7 @@ import ap.spring2019.project.logic.Account;
 import ap.spring2019.project.server.Listener;
 import ap.spring2019.project.server.Game;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,7 +21,11 @@ public class Server {
     private static ServerSocket server;
     private static final HashMap<String, Socket> onlineUsers = new HashMap<>();
     private static final ArrayList<Game> games = new ArrayList<>();
-
+    private static final HashMap<String, Integer> cardStocks = new HashMap<>();
+    private static final File heroes = new File("Heroes");
+    private static final File minions = new File("Minions");
+    private static final File spells = new File("Spells");
+    private static final File Items = new File("Items");
     static {
         try {
             server = new ServerSocket(PORT);
@@ -131,6 +136,19 @@ public class Server {
         }
     }
 
+    public static File getHeroes() {
+        return heroes;
+    }
 
+    public static File getMinions() {
+        return minions;
+    }
 
+    public static File getSpells() {
+        return spells;
+    }
+
+    public static File getItems() {
+        return Items;
+    }
 }
