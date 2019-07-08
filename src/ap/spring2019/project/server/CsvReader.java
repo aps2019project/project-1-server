@@ -51,7 +51,7 @@ public class CsvReader {
 
     public static String readFile(String cardType) {
         try {
-            InputStream is = new FileInputStream("Files/" + cardType +".csv");
+            InputStream is = new FileInputStream(cardType +".csv");
             BufferedReader buf = new BufferedReader(new InputStreamReader(is));
             String line = buf.readLine();
             StringBuilder sb = new StringBuilder();
