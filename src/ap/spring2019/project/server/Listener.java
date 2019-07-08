@@ -50,9 +50,9 @@ class Listener implements Runnable {
                 getCardString(CardType.valueOf(command.split(" ")[2]));
             } else if (command.matches("Send Card File \\w+")){
                 sendData(CsvReader.readFile(command.split(" ")[3]));
-            } else if (command.matches("Buy Card \\w+")){
-                buyCard(command.split(" ")[2]);
-            } else if (command.matches("Sell Card \\w+")){
+            } else if (command.matches("Buy Card \\w+ \\w+")){
+                buyCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
+            } else if (command.matches("Sell Card \\w+ \\w+")){
 
             }
         }
@@ -162,13 +162,13 @@ class Listener implements Runnable {
         }
     }
 
-    public void buyCard(String name){
+    public void buyCard(CardType cardType, String name){
         int stock = Server.getCardStocks().get(name);
         if(stock <= 0){
             sendData("Out of Stock");
         } else {
             Server.getCardStocks().put(name, stock - 1);
-            CsvWriter.updateStock(name, stock - 1);
+            CsvWriter.updateStock(cardType, name, stock - 1);
             sendData("Done");
         }
     }

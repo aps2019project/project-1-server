@@ -1,9 +1,11 @@
 package ap.spring2019.project.server;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import server.CardType;
 
 public class CsvWriter {
 
@@ -41,7 +43,21 @@ public class CsvWriter {
         }
     }
 
-    public static void updateStock(String name, int stock){
-
+    public static void updateStock(CardType cardType, String name, int stock){
+        ArrayList<String[]> datas;
+        switch (cardType){
+            case HERO:
+                datas = CsvReader.readCards("Heroes");
+                break;
+            case MINION:
+                datas = CsvReader.readCards("Minions");
+                break;
+            case SPELL:
+                datas = CsvReader.readCards("Spells");
+                break;
+            default:
+                datas = CsvReader.readCards("Items");
+                break;
+        }
     }
 }
