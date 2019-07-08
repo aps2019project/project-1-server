@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    private static final int PORT = 8000;
+    private static final int PORT = 8765;
     private static ServerSocket server;
     private static final HashMap<String, Socket> onlineUsers = new HashMap<>();
     private static final ArrayList<Game> games = new ArrayList<>();
@@ -25,6 +25,8 @@ public class Server {
     static {
         try {
             server = new ServerSocket(PORT);
+            System.out.println(server.getInetAddress());
+            System.out.println(server.getLocalSocketAddress());
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
@@ -36,7 +38,6 @@ public class Server {
         Account.readAccountDetails();
         ExecutorService serverSocketAdder = Executors.newSingleThreadExecutor();
         ExecutorService offlineUserGrabber = Executors.newSingleThreadExecutor();
-        ExecutorService informationListener = Executors.newSingleThreadExecutor();
 
         serverSocketAdder.submit(() -> {
             while (Thread.currentThread().isAlive()) {
@@ -52,17 +53,6 @@ public class Server {
         offlineUserGrabber.submit(() -> {
             while (Thread.currentThread().isAlive())
                 deleteOfflineUsers();
-        });
-
-        informationListener.submit(() -> {
-            Scanner scanner = new Scanner(System.in);
-            while (scanner.hasNext()) {
-                String command = scanner.nextLine();
-                if (command.matches("online users"))
-                    System.out.println(onlineUsers);
-                else if (command.matches("all users"))
-                    System.out.println(Account.getAccounts());
-            }
         });
     }
 
