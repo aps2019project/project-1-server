@@ -10,9 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class Account {
 
@@ -35,6 +33,7 @@ public class Account {
     }
 
     public static ArrayList<Account> getAccounts() {
+        sortAccounts();
         return allAccounts;
     }
 
@@ -128,5 +127,45 @@ public class Account {
         }
         saveAccountDetails();
 
+    }
+
+    private int getWonGames() {
+        int win = 0;
+        for (MatchResult history : matchHistory) {
+            if (history.getWinner().equals(this))
+                win++;
+        }
+        return win;
+    }
+
+    private static void sortAccounts() {
+        synchronized (allAccounts) {
+            allAccounts.sort((a1, a2) -> {
+                if (a1.getWonGames() == a2.getWonGames())
+                    return a1.username.compareTo(a2.username);
+                return a1.getWonGames() - a2.getWonGames();
+            });
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "username='" + username + '\'' +
+                ", daric=" + daric +
+                "}\n";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Account)) return false;
+        Account account = (Account) o;
+        return  Objects.equals(getUsername(), account.getUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getPassword(), daric);
     }
 }

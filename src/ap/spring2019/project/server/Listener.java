@@ -11,6 +11,7 @@ import server.CardType;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 class Listener implements Runnable {
 
@@ -46,6 +47,10 @@ class Listener implements Runnable {
                 sendData(Account.getAccounts());
             } else if (command.matches("logout")) {
                 logOutUser();
+            } else if (command.matches("get accounts")) {
+                sendData(Account.getAccounts());
+            } else if (command.matches("get online users")) {
+                sendData(new HashSet<>(Server.getOnlineUsers().keySet()));
             } else if (command.matches("Create Card \\w+")) {
                 getCardFile(CardType.valueOf(command.split(" ")[2]));
             } else if (command.matches("Send Card File \\w+")){
