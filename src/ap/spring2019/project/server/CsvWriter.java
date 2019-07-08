@@ -10,7 +10,7 @@ import server.CardType;
 public class CsvWriter {
 
     public static void write(String cardType, ArrayList<String> data) {
-        String fileAddress = "Files/" + cardType +".csv";
+        String fileAddress = cardType +".csv";
         try {
             FileWriter fileWriter = new FileWriter(fileAddress, true);
             fileWriter.append(join(',', data));
@@ -34,7 +34,7 @@ public class CsvWriter {
 
     public static void writeCardFiles(String cardType, String data){
         try {
-            FileWriter fileWriter = new FileWriter(new File("Files/" + cardType +".csv"));
+            FileWriter fileWriter = new FileWriter(new File(cardType +".csv"));
             fileWriter.write(data);
             fileWriter.flush();
             fileWriter.close();
