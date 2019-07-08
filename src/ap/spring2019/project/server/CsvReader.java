@@ -8,7 +8,7 @@ public class CsvReader {
 
     public static ArrayList<String[]> readCards(String cardType){
         ArrayList<String[]> data = new ArrayList<String[]>();
-        String fileAddress = "Files/" + cardType +".csv";
+        String fileAddress = cardType +".csv";
         try {
             FileReader fileReader = new FileReader(fileAddress);
             BufferedReader reader = new BufferedReader(fileReader);
@@ -33,7 +33,7 @@ public class CsvReader {
 
     public static void readStock(String cardType, HashMap<String, Integer> stocks){
 //        ArrayList<String[]> data = new ArrayList<String[]>();
-        String fileAddress = "Files/" + cardType +".csv";
+        String fileAddress = cardType +".csv";
         try {
             FileReader fileReader = new FileReader(fileAddress);
             BufferedReader reader = new BufferedReader(fileReader);
