@@ -52,9 +52,13 @@ class Listener implements Runnable {
             } else if (command.matches("get online users")) {
                 sendData(new HashSet<>(Server.getOnlineUsers().keySet()));
             } else if (command.matches("Create Card \\w+")) {
-                getCardFile(CardType.valueOf(command.split(" ")[2]));
+                getCardString(CardType.valueOf(command.split(" ")[2]));
             } else if (command.matches("Send Card File \\w+")){
-                sendData(readFile(command.split(" ")[3]));
+                sendData(CsvReader.readFile(command.split(" ")[3]));
+            } else if (command.matches("Buy Card \\w+ \\w+")){
+                buyCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
+            } else if (command.matches("Sell Card \\w+ \\w+")){
+
             }
         }
     }
@@ -132,47 +136,45 @@ class Listener implements Runnable {
         Account.saveAccountDetails();
     }
 
-    public void getCardFile(CardType type){
+    public void getCardString(CardType type){
         try {
+            File file;
             FileWriter fileWriter;
             switch (type) {
                 case HERO:
-                    fileWriter = new FileWriter(new File("Heroes.csv"));
+                    file = Server.getHeroes();
                     break;
                 case MINION:
-                    fileWriter = new FileWriter(new File("Minions.csv"));
+                    file = Server.getMinions();
                     break;
                 case SPELL:
-                    fileWriter = new FileWriter(new File("Spells.csv"));
+                    file = Server.getSpells();
                     break;
                 default:
-                    fileWriter = new FileWriter(new File("Items.csv"));
+                    file = Server.getItems();
                     break;
             }
-            String data = getCommand();
-            fileWriter.write(data);
-            fileWriter.flush();
-            fileWriter.close();
+            synchronized (file) {
+                fileWriter = new FileWriter(file, true);
+                String data = getCommand();
+                fileWriter.write(data);
+                fileWriter.flush();
+                fileWriter.close();
+            }
 
         }catch (IOException i){
             i.printStackTrace();
         }
     }
 
-    public String readFile(String cardType) {
-        try {
-            InputStream is = new FileInputStream(cardType +".csv");
-            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-            String line = buf.readLine();
-            StringBuilder sb = new StringBuilder();
-            while (line != null) {
-                sb.append(line).append("\n");
-                line = buf.readLine();
-            }
-            return sb.toString();
-        } catch (IOException i){
-            i.printStackTrace();
+    public void buyCard(CardType cardType, String name){
+        int stock = Server.getCardStocks().get(name);
+        if(stock <= 0){
+            sendData("Out of Stock");
+        } else {
+            Server.getCardStocks().put(name, stock - 1);
+            CsvWriter.updateStock(cardType, name, stock - 1);
+            sendData("Done");
         }
-        return null;
     }
 }
