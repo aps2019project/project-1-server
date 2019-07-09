@@ -1,11 +1,11 @@
 package ap.spring2019.project.server;
 
-public class Mousepos {
+public class MousePos {
     public float x;
     public float y;
     public MouseState mouseState = MouseState.NOTHING;
 
-    public Mousepos(float x, float y) {
+    public MousePos(float x, float y) {
         this.x = x;
         this.y = y;
     }

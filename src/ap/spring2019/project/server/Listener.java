@@ -5,14 +5,11 @@ import ap.spring2019.project.logic.Account;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import server.CardType;
 
 import java.io.*;
 import java.net.Socket;
-import java.rmi.ServerError;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Vector;
 
 import static ap.spring2019.project.server.GameType.*;
 
@@ -194,7 +191,7 @@ class Listener implements Runnable {
                 sendData(enemyDatas.pickMousePos());
                 break;
             case "send mousePos":
-                accountDatas.addMousePos(getData(Mousepos.class));
+                accountDatas.addMousePos(getData(MousePos.class));
                 break;
         }
     }
