@@ -58,7 +58,7 @@ class Listener implements Runnable {
             } else if (command.matches("Buy Card \\w+ \\w+")){
                 buyCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
             } else if (command.matches("Sell Card \\w+ \\w+")){
-
+                sellCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
             }
         }
     }
@@ -138,26 +138,12 @@ class Listener implements Runnable {
 
     public void getCardString(CardType type){
         try {
-            File file;
+            File file = Server.getFile(type);
             FileWriter fileWriter;
-            switch (type) {
-                case HERO:
-                    file = Server.getHeroes();
-                    break;
-                case MINION:
-                    file = Server.getMinions();
-                    break;
-                case SPELL:
-                    file = Server.getSpells();
-                    break;
-                default:
-                    file = Server.getItems();
-                    break;
-            }
             synchronized (file) {
                 fileWriter = new FileWriter(file, true);
                 String data = getCommand();
-                fileWriter.write(data);
+                fileWriter.append(data);
                 fileWriter.flush();
                 fileWriter.close();
             }
@@ -177,4 +163,11 @@ class Listener implements Runnable {
             sendData("Done");
         }
     }
+
+    public void sellCard(CardType cardType, String name) {
+        int stock = Server.getCardStocks().get(name);
+        Server.getCardStocks().put(name, stock +1);
+        CsvWriter.updateStock(cardType, name, stock + 1);
+    }
+
 }
