@@ -24,10 +24,10 @@ public class Server {
     private static final HashMap<String, Socket> onlineUsers = new HashMap<>();
     private static final ArrayList<Game> games = new ArrayList<>();
     private static final HashMap<String, Integer> cardStocks = new HashMap<>();
-    private static final File heroes = new File("Heroes");
-    private static final File minions = new File("Minions");
-    private static final File spells = new File("Spells");
-    private static final File Items = new File("Items");
+    private static final File heroes = new File("Heroes.csv");
+    private static final File minions = new File("Minions.csv");
+    private static final File spells = new File("Spells.csv");
+    private static final File Items = new File("Items.csv");
     static {
         try {
             server = new ServerSocket(PORT);

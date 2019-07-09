@@ -9,6 +9,8 @@ import server.CardType;
 
 public class CsvWriter {
 
+    private static String firstRow = "Stock,NO.,Name,Price,Health Point,Attack Power,Type of Attack,Attack Range,Spell,MP,Cool Down,,,,,,\n";
+
     public static void write(String cardType, ArrayList<String> data) {
         String fileAddress = cardType +".csv";
         try {
@@ -80,12 +82,16 @@ public class CsvWriter {
         synchronized (file) {
             try {
                 FileWriter fileWriter = new FileWriter(file);
+                fileWriter.append(firstRow);
                 for (String[] row : datas) {
                     if (name.equals(row[2])) {
                         row[0] = Integer.toString(stock);
                     }
-                    writeCardFiles(cardType, join(',', row));
+                    fileWriter.append(join(',', row));
+                    fileWriter.append("\n");
                 }
+                fileWriter.flush();
+                fileWriter.close();
             } catch (IOException i) {
                 i.printStackTrace();
             }
