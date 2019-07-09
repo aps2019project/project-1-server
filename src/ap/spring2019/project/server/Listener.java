@@ -1,8 +1,6 @@
 package ap.spring2019.project.server;
 
 import ap.spring2019.project.logic.Account;
-import ap.spring2019.project.server.Server;
-import ap.spring2019.project.server.Game;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,8 +8,12 @@ import server.CardType;
 
 import java.io.*;
 import java.net.Socket;
+import java.rmi.ServerError;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Vector;
+
+import static ap.spring2019.project.server.GameType.*;
 
 class Listener implements Runnable {
 
@@ -19,7 +21,7 @@ class Listener implements Runnable {
     private Socket socket;
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
-
+    private AccountDatas accountDatas;
     Listener(Socket socket) {
         try {
             this.socket = socket;
@@ -59,6 +61,18 @@ class Listener implements Runnable {
                 buyCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
             } else if (command.matches("Sell Card \\w+ \\w+")){
 
+            } else if (command.matches("play game orders")) {
+                handlePlayGame();
+            } else if (command.matches("get enemy account" )) {
+                handleGetEnemyAccount();
+            } else if (command.matches("apply play multiplayer game")) {
+                handleApplyPlayMultiplayerGame();
+            } else if (command.matches("cancel applying" )) {
+                handleCancelApply();
+            } else if (command.matches( "get applying condition" )) {
+                handleGetApplyingCondition();
+            } else if (command.matches("get my number in game")) {
+                sendData((Integer)accountDatas.getNumberInGame());
             }
         }
     }
@@ -131,6 +145,7 @@ class Listener implements Runnable {
             return;
         }
         Server.addUser(userName, socket);
+        this.accountDatas = Server.getAccountDatas(userName);
         sendData("Done");
         sendData(Account.findAccount(userName));
         Account.saveAccountDetails();
@@ -177,4 +192,53 @@ class Listener implements Runnable {
             sendData("Done");
         }
     }
+    public void handlePlayGame() {
+        String line = null;
+        line = getCommand();
+
+        switch (line) {
+            case "get mousePos":
+                AccountDatas enemyDatas = Server.getAccountDatas(accountDatas.getEnemyAccount().getUsername());
+                sendData(enemyDatas.pickMousePos());
+                break;
+            case "send mousePos":
+                accountDatas.addMousePos(getData(Mousepos.class));
+                break;
+        }
+    }
+    public void handleGetEnemyAccount(){
+        sendData(accountDatas.getEnemyAccount());
+    }
+    public void handleApplyPlayMultiplayerGame() {
+        GameType type = KILL_HERO;
+        int numberOfFlags = 0;
+        type = getGameTypeByString(getCommand());
+        numberOfFlags = Integer.parseInt(getCommand());
+
+        accountDatas.setGame(type, numberOfFlags);
+        accountDatas.addToWaitList();
+    }
+
+    public static GameType getGameTypeByString(String type) {
+        if(type.equals("kill hero")) return KILL_HERO;
+        else if(type.equals("capture the flag")) return CAPTURE_FLAGES;
+        else if(type.equals("rollup flags")) return ROLLUP_FLAGES;
+        else return  KILL_HERO;
+    }
+
+    public void handleCancelApply() {
+        accountDatas.removeFromWaitList();
+    }
+    public void handleGetApplyingCondition() {
+        String outCommand = "waiting";
+        if( accountDatas.getWaitArrayInServer().size() > 1) {
+            outCommand = "accepted";
+            Server.setNewGame(accountDatas.getWaitArrayInServer());
+        } else if(accountDatas.getEnemyAccount() != null) {
+            outCommand = "accepted";
+        }
+        sendData(outCommand);
+    }
+
+
 }
