@@ -33,6 +33,7 @@ public class Server {
     private static final File minions = new File("Minions");
     private static final File spells = new File("Spells");
     private static final File Items = new File("Items");
+
     static {
         try {
             server = new ServerSocket(PORT);
@@ -188,6 +189,30 @@ public class Server {
             systemipaddress = "Cannot Execute Properly";
         }
         System.out.println("Public IP Address: " + systemipaddress +"\n");
+    }
+
+    public static File getFile(server.CardType cardType) {
+        switch (cardType){
+            case HERO:
+                return Server.getHeroes();
+            case MINION:
+                return Server.getMinions();
+            case SPELL:
+                return Server.getSpells();
+            default:
+                return Server.getItems();
+        }
+    }
+
+    public static File getFile(String cardType) {
+        if(cardType.equals("Heroes")){
+            return getHeroes();
+        } else if(cardType.equals("Minions")){
+            return getMinions();
+        } else if(cardType.equals("Spells")){
+            return getSpells();
+        } else
+            return getItems();
     }
 
     public static File getHeroes() {
