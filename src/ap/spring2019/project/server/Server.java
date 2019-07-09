@@ -197,6 +197,17 @@ public class Server {
         }
     }
 
+    public static File getFile(String cardType) {
+        if(cardType.equals("Heroes")){
+            return getHeroes();
+        } else if(cardType.equals("Minions")){
+            return getMinions();
+        } else if(cardType.equals("Spells")){
+            return getSpells();
+        } else
+            return getItems();
+    }
+
     public static File getHeroes() {
         return heroes;
     }
