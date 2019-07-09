@@ -32,12 +32,25 @@ public class CsvWriter {
         return stringBuilder.toString();
     }
 
-    public static void writeCardFiles(String cardType, String data){
+    public static String join(char c, String[] data) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String string : data){
+            stringBuilder.append(string);
+            stringBuilder.append(c);
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        return stringBuilder.toString();
+    }
+
+    public static void writeCardFiles(CardType cardType, String data){
         try {
-            FileWriter fileWriter = new FileWriter(new File(cardType +".csv"));
-            fileWriter.write(data);
-            fileWriter.flush();
-            fileWriter.close();
+            File file = Server.getFile(cardType);
+            synchronized (file) {
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write(data);
+                fileWriter.flush();
+                fileWriter.close();
+            }
         }catch (IOException i){
             i.printStackTrace();
         }
@@ -45,19 +58,37 @@ public class CsvWriter {
 
     public static void updateStock(CardType cardType, String name, int stock){
         ArrayList<String[]> datas;
+        File file;
         switch (cardType){
             case HERO:
                 datas = CsvReader.readCards("Heroes");
+                file = Server.getHeroes();
                 break;
             case MINION:
                 datas = CsvReader.readCards("Minions");
+                file = Server.getMinions();
                 break;
             case SPELL:
                 datas = CsvReader.readCards("Spells");
+                file = Server.getSpells();
                 break;
             default:
                 datas = CsvReader.readCards("Items");
+                file = Server.getItems();
                 break;
+        }
+        synchronized (file) {
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                for (String[] row : datas) {
+                    if (name.equals(row[2])) {
+                        row[0] = Integer.toString(stock);
+                    }
+                    writeCardFiles(cardType, join(',', row));
+                }
+            } catch (IOException i) {
+                i.printStackTrace();
+            }
         }
     }
 }

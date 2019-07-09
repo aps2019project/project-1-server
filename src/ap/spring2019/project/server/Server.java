@@ -184,6 +184,19 @@ public class Server {
         System.out.println("Public IP Address: " + systemipaddress +"\n");
     }
 
+    public static File getFile(server.CardType cardType) {
+        switch (cardType){
+            case HERO:
+                return Server.getHeroes();
+            case MINION:
+                return Server.getMinions();
+            case SPELL:
+                return Server.getSpells();
+            default:
+                return Server.getItems();
+        }
+    }
+
     public static File getHeroes() {
         return heroes;
     }

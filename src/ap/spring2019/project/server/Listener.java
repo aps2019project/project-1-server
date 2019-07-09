@@ -138,26 +138,12 @@ class Listener implements Runnable {
 
     public void getCardString(CardType type){
         try {
-            File file;
+            File file = Server.getFile(type);
             FileWriter fileWriter;
-            switch (type) {
-                case HERO:
-                    file = Server.getHeroes();
-                    break;
-                case MINION:
-                    file = Server.getMinions();
-                    break;
-                case SPELL:
-                    file = Server.getSpells();
-                    break;
-                default:
-                    file = Server.getItems();
-                    break;
-            }
             synchronized (file) {
                 fileWriter = new FileWriter(file, true);
                 String data = getCommand();
-                fileWriter.write(data);
+                fileWriter.append(data);
                 fileWriter.flush();
                 fileWriter.close();
             }
