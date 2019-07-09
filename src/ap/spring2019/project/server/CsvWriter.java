@@ -9,6 +9,8 @@ import server.CardType;
 
 public class CsvWriter {
 
+    private static String firstRow = "Stock,NO.,Name,Price,Health Point,Attack Power,Type of Attack,Attack Range,Spell,MP,Cool Down,,,,,,\n";
+
     public static void write(String cardType, ArrayList<String> data) {
         String fileAddress = cardType +".csv";
         try {
@@ -32,12 +34,25 @@ public class CsvWriter {
         return stringBuilder.toString();
     }
 
-    public static void writeCardFiles(String cardType, String data){
+    public static String join(char c, String[] data) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for(String string : data){
+            stringBuilder.append(string);
+            stringBuilder.append(c);
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        return stringBuilder.toString();
+    }
+
+    public static void writeCardFiles(CardType cardType, String data){
         try {
-            FileWriter fileWriter = new FileWriter(new File(cardType +".csv"));
-            fileWriter.write(data);
-            fileWriter.flush();
-            fileWriter.close();
+            File file = Server.getFile(cardType);
+            synchronized (file) {
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write(data);
+                fileWriter.flush();
+                fileWriter.close();
+            }
         }catch (IOException i){
             i.printStackTrace();
         }
@@ -45,19 +60,41 @@ public class CsvWriter {
 
     public static void updateStock(CardType cardType, String name, int stock){
         ArrayList<String[]> datas;
+        File file;
         switch (cardType){
             case HERO:
                 datas = CsvReader.readCards("Heroes");
+                file = Server.getHeroes();
                 break;
             case MINION:
                 datas = CsvReader.readCards("Minions");
+                file = Server.getMinions();
                 break;
             case SPELL:
                 datas = CsvReader.readCards("Spells");
+                file = Server.getSpells();
                 break;
             default:
                 datas = CsvReader.readCards("Items");
+                file = Server.getItems();
                 break;
+        }
+        synchronized (file) {
+            try {
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.append(firstRow);
+                for (String[] row : datas) {
+                    if (name.equals(row[2])) {
+                        row[0] = Integer.toString(stock);
+                    }
+                    fileWriter.append(join(',', row));
+                    fileWriter.append("\n");
+                }
+                fileWriter.flush();
+                fileWriter.close();
+            } catch (IOException i) {
+                i.printStackTrace();
+            }
         }
     }
 }
