@@ -22,12 +22,18 @@ public class Server {
     private static final int PORT = 8765;
     private static ServerSocket server;
     private static final HashMap<String, Socket> onlineUsers = new HashMap<>();
+    private static final HashMap<String, AccountDatas> allAccountDatas = new HashMap<>();
+
     private static final ArrayList<Game> games = new ArrayList<>();
     private static final HashMap<String, Integer> cardStocks = new HashMap<>();
-    private static final File heroes = new File("Heroes.csv");
-    private static final File minions = new File("Minions.csv");
-    private static final File spells = new File("Spells.csv");
-    private static final File Items = new File("Items.csv");
+    private static final ArrayList<Account>[] rollUpFlagsGames = new ArrayList[8];
+    private static final ArrayList<Account> killHeroGames = new ArrayList<>();
+    private static final ArrayList<Account> captureTheFlag = new ArrayList<>();
+    private static final File heroes = new File("Heroes");
+    private static final File minions = new File("Minions");
+    private static final File spells = new File("Spells");
+    private static final File Items = new File("Items");
+
     static {
         try {
             server = new ServerSocket(PORT);
@@ -43,7 +49,6 @@ public class Server {
         Account.readAccountDetails();
         ExecutorService serverSocketAdder = Executors.newSingleThreadExecutor();
         ExecutorService offlineUserGrabber = Executors.newSingleThreadExecutor();
-
         CsvReader.readStock(cardStocks);
 
         serverSocketAdder.submit(() -> {
@@ -78,12 +83,14 @@ public class Server {
     static synchronized void addUser(String userName, Socket socket) {
         synchronized (onlineUsers) {
             onlineUsers.put(userName, socket);
+            allAccountDatas.put(userName, new AccountDatas(Account.findAccount(userName)));
         }
     }
 
     static synchronized Socket deleteUser(String userName) {
         synchronized (onlineUsers) {
             try {
+                allAccountDatas.remove(userName);
                 return onlineUsers.remove(userName);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -226,5 +233,33 @@ public class Server {
 
     public static HashMap<String, Integer> getCardStocks() {
         return cardStocks;
+    }
+
+    public static ArrayList<Account> getCaptureTheFlag() {
+        return captureTheFlag;
+    }
+
+    public static ArrayList<Account>[] getRollUpFlagsGames() {
+        return rollUpFlagsGames;
+    }
+
+    public static ArrayList<Account> getKillHeroGames() {
+        return killHeroGames;
+    }
+    public static void setNewGame(ArrayList<Account> accounts) {
+        int randomNumber = (int)Math.floor(Math.random() * accounts.size());
+        Account firstAccount = accounts.get(randomNumber);
+        accounts.remove(firstAccount);
+        randomNumber = (int)Math.floor(Math.random() * accounts.size());
+        Account secondAccount = accounts.get(randomNumber);
+        accounts.remove(secondAccount);
+        Server.allAccountDatas.get(firstAccount.getUsername()).setEnemyAccount(secondAccount);
+        Server.allAccountDatas.get(firstAccount.getUsername()).setNumberInGame(1);
+        Server.allAccountDatas.get(secondAccount.getUsername()).setEnemyAccount(firstAccount);
+        Server.allAccountDatas.get(secondAccount.getUsername()).setNumberInGame(2);
+    }
+
+    public static AccountDatas getAccountDatas(String username) {
+        return allAccountDatas.get(username);
     }
 }
