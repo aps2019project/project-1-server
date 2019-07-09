@@ -12,7 +12,7 @@ public class AccountDatas {
     private int numberOfFlags = 0;
     private Account account;
     private int numberInGame = 1;
-    private ArrayList<Mousepos> mouseposs = new ArrayList<>();
+    private ArrayList<MousePos> mouseposses = new ArrayList<>();
 
     public AccountDatas(Account account){
         this.account =account;
@@ -67,13 +67,13 @@ public class AccountDatas {
         return numberInGame;
     }
 
-    public Mousepos pickMousePos() {
-        if(mouseposs.size() == 0) return null;
-        Mousepos mousepos = mouseposs.get(0);
-        mouseposs.remove(0);
+    public MousePos pickMousePos() {
+        if(mouseposses.size() == 0) return null;
+        MousePos mousepos = mouseposses.get(0);
+        mouseposses.remove(0);
         return mousepos;
     }
-    public void addMousePos(Mousepos mousepos) {
-        mouseposs.add(mousepos);
+    public void addMousePos(MousePos mousepos) {
+        mouseposses.add(mousepos);
     }
 }

@@ -191,7 +191,7 @@ public class Server {
         System.out.println("Public IP Address: " + systemipaddress +"\n");
     }
 
-    public static File getFile(server.CardType cardType) {
+    public static File getFile(CardType cardType) {
         switch (cardType){
             case HERO:
                 return Server.getHeroes();
