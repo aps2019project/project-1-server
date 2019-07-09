@@ -1,5 +1,6 @@
 package ap.spring2019.project.server;
 
+import ap.spring2019.project.chat.Message;
 import ap.spring2019.project.logic.Account;
 import ap.spring2019.project.server.Server;
 import ap.spring2019.project.server.Game;
@@ -59,6 +60,10 @@ class Listener implements Runnable {
                 buyCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
             } else if (command.matches("Sell Card \\w+ \\w+")){
                 sellCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
+            }  else if (command.matches("get chat")) {
+                sendData(Message.getChat());
+            } else if (command.matches("new message")) {
+                Message.addMessage(getData(Message.class));
             }
         }
     }
