@@ -58,7 +58,7 @@ class Listener implements Runnable {
             } else if (command.matches("Buy Card \\w+ \\w+")){
                 buyCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
             } else if (command.matches("Sell Card \\w+ \\w+")){
-
+                sellCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
             }
         }
     }
@@ -177,4 +177,11 @@ class Listener implements Runnable {
             sendData("Done");
         }
     }
+
+    public void sellCard(CardType cardType, String name) {
+        int stock = Server.getCardStocks().get(name);
+        Server.getCardStocks().put(name, stock +1);
+        CsvWriter.updateStock(cardType, name, stock + 1);
+    }
+
 }
