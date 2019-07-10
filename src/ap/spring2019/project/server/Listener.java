@@ -3,6 +3,8 @@ package ap.spring2019.project.server;
 import ap.spring2019.project.chat.Message;
 import ap.spring2019.project.logic.Account;
 
+import ap.spring2019.project.logic.AuctionCard;
+import ap.spring2019.project.logic.ClientAuctionCard;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -77,10 +79,21 @@ class Listener implements Runnable {
                 handleGetApplyingCondition();
             } else if (command.matches("get my number in game")) {
                 sendData((Integer)accountDatas.getNumberInGame());
-            } else if (command.matches("add auction")) {
-
+            } else if (command.matches("add auction \\w+ \\w+")) {
+                createAuction(command.split(" ")[3], command.split(" ")[2]);
+            } else if (command.matches("new offer \\w+ \\d{7} \\d+")) {
+                Server.addNewOffer(command.split(" ")[2], Integer.parseInt(command.split(" ")[3]), Integer.parseInt(command.split(" ")[4]));
+            } else if (command.matches("get auction market")) {
+                sendArrayList(ClientAuctionCard.getClientKnownArrayList(Server.getAuctionMarket()));
+            } else if (command.matches("get auction \\d{7}")) {
+                sendData(ClientAuctionCard.getClientKnownCard(Server.getAuctionByID(Integer.parseInt(command.split(" ")[2]))));
             }
         }
+    }
+
+    private void createAuction(String cardName, String username) {
+        final AuctionCard temp = new AuctionCard(username, cardName);
+        Server.addAuction(temp);
     }
 
     private void logOutUser() {

@@ -126,7 +126,6 @@ public class Account {
             allAccounts.add(account);
         }
         saveAccountDetails();
-
     }
 
     private int getWonGames() {
