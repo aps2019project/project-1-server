@@ -87,6 +87,8 @@ class Listener implements Runnable {
                 sendArrayList(ClientAuctionCard.getClientKnownArrayList(Server.getAuctionMarket()));
             } else if (command.matches("get auction \\d{7}")) {
                 sendData(ClientAuctionCard.getClientKnownCard(Server.getAuctionByID(Integer.parseInt(command.split(" ")[2]))));
+            } else if(command.matches("get arrays")) {
+                getArrays();
             }
         }
     }
@@ -273,6 +275,11 @@ class Listener implements Runnable {
         int stock = Server.getCardStocks().get(name);
         Server.getCardStocks().put(name, stock +1);
         CsvWriter.updateStock(cardType, name, stock + 1);
+    }
+
+    public void getArrays() {
+        sendData(accountDatas.getMyArray());
+        sendData(accountDatas.getEnemyArray());
     }
 
 }

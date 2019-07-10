@@ -13,6 +13,8 @@ public class AccountDatas {
     private Account account;
     private int numberInGame = 1;
     private ArrayList<MousePos> mouseposses = new ArrayList<>();
+    private float[] myArray;
+    private float[] enemyArray;
 
     public AccountDatas(Account account){
         this.account =account;
@@ -76,4 +78,18 @@ public class AccountDatas {
     public void addMousePos(MousePos mousepos) {
         mouseposses.add(mousepos);
     }
+
+    public void setArrays(float[] myArray, float[] enemyArray) {
+        this.myArray = myArray;
+        this.enemyArray = enemyArray;
+    }
+
+    public float[] getMyArray() {
+        return myArray;
+    }
+
+    public float[] getEnemyArray() {
+        return enemyArray;
+    }
 }
+

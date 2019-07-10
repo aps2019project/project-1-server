@@ -293,6 +293,15 @@ public class Server {
         Server.allAccountDatas.get(firstAccount.getUsername()).setNumberInGame(1);
         Server.allAccountDatas.get(secondAccount.getUsername()).setEnemyAccount(firstAccount);
         Server.allAccountDatas.get(secondAccount.getUsername()).setNumberInGame(2);
+
+        float[] deckArray1 = new float[40];
+        float[] deckArray2 = new float[40];
+        for(int i=0;i < 40; i++) {
+            deckArray1[i] = (float) Math.random();
+            deckArray2[i] = (float) Math.random();
+        }
+        Server.allAccountDatas.get(firstAccount.getUsername()).setArrays(deckArray1, deckArray2);
+        Server.allAccountDatas.get(secondAccount.getUsername()).setArrays(deckArray2, deckArray1);
     }
 
     public static AccountDatas getAccountDatas(String username) {
