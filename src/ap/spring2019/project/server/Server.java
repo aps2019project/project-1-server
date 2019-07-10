@@ -29,10 +29,10 @@ public class Server {
     private static final ArrayList<Account>[] rollUpFlagsGames = new ArrayList[8];
     private static final ArrayList<Account> killHeroGames = new ArrayList<>();
     private static final ArrayList<Account> captureTheFlag = new ArrayList<>();
-    private static final File heroes = new File("Heroes");
-    private static final File minions = new File("Minions");
-    private static final File spells = new File("Spells");
-    private static final File Items = new File("Items");
+    private static final File heroes = new File("Heroes.csv");
+    private static final File minions = new File("Minions.csv");
+    private static final File spells = new File("Spells.csv");
+    private static final File Items = new File("Items.csv");
 
     static {
         try {
