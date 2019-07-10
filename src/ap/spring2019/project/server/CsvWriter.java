@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 public class CsvWriter {
 
-    private static String firstRow = "Stock,NO.,Name,Price,Health Point,Attack Power,Type of Attack,Attack Range,Spell,MP,Cool Down,,,,,,\n";
-
     public static void write(String cardType, ArrayList<String> data) {
         String fileAddress = cardType +".csv";
         try {
@@ -24,13 +22,7 @@ public class CsvWriter {
     }
 
     public static String join(char c, ArrayList<String> data) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for(String string : data){
-            stringBuilder.append(string);
-            stringBuilder.append(c);
-        }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        return stringBuilder.toString();
+        return join(c, data.toArray(new String[0]));
     }
 
     public static String join(char c, String[] data) {
@@ -81,7 +73,6 @@ public class CsvWriter {
         synchronized (file) {
             try {
                 FileWriter fileWriter = new FileWriter(file);
-                fileWriter.append(firstRow);
                 for (String[] row : datas) {
                     if (name.equals(row[2])) {
                         row[0] = Integer.toString(stock);
@@ -95,5 +86,21 @@ public class CsvWriter {
                 i.printStackTrace();
             }
         }
+    }
+
+    public static File copy(String type) {
+        try{
+            File file = new File(type + "Copy.csv");
+            file.createNewFile();
+            FileWriter fileWriter = new FileWriter(file);
+            String data = CsvReader.readFile(type);
+            fileWriter.append(data);
+            fileWriter.flush();
+            fileWriter.close();
+            return file;
+        } catch (IOException i){
+            i.printStackTrace();
+        }
+        return null;
     }
 }
