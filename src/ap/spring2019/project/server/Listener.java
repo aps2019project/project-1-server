@@ -9,7 +9,9 @@ import com.google.gson.GsonBuilder;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import static ap.spring2019.project.server.GameType.*;
 
@@ -48,9 +50,9 @@ class Listener implements Runnable {
             } else if (command.matches("logout")) {
                 logOutUser();
             } else if (command.matches("get accounts")) {
-                sendData(Account.getAccounts());
+                sendArrayList(Account.getAccounts());
             } else if (command.matches("get online users")) {
-                sendData(new HashSet<>(Server.getOnlineUsers().keySet()));
+                sendHashSet(new HashSet<>(Server.getOnlineUsers().keySet()));
             } else if (command.matches("Create Card \\w+")) {
                 getCardString(CardType.valueOf(command.split(" ")[2]));
             } else if (command.matches("Send Card File \\w+")){
@@ -60,7 +62,7 @@ class Listener implements Runnable {
             } else if (command.matches("Sell Card \\w+ \\w+")){
                   sellCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
             }  else if (command.matches("get chat")) {
-                sendData(Message.getChat());
+                sendArrayList(Message.getChat());
             } else if (command.matches("new message")) {
                 Message.addMessage(getData(Message.class));
             } else if (command.matches("play game orders")) {
@@ -75,6 +77,8 @@ class Listener implements Runnable {
                 handleGetApplyingCondition();
             } else if (command.matches("get my number in game")) {
                 sendData((Integer)accountDatas.getNumberInGame());
+            } else if (command.matches("add auction")) {
+
             }
         }
     }
@@ -122,6 +126,26 @@ class Listener implements Runnable {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private <T> void sendArrayList(ArrayList<T> data) {
+        for (T object: data) {
+            sendData(object);
+        }
+        sendData("end");
+    }
+
+    private <T> void sendHashSet(HashSet<T> data) {
+        ArrayList<T> temp = new ArrayList<>(data);
+        sendArrayList(temp);
+    }
+
+    private <K, V> void sendHashMap(HashMap<K, V> data) {
+        for (Map.Entry<K, V> object: data.entrySet()) {
+            sendData(object.getKey());
+            sendData(object.getValue());
+        }
+        sendData("end");
     }
 
     private void createAccount(String userName, String password) {
