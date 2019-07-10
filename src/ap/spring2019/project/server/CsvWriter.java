@@ -22,13 +22,7 @@ public class CsvWriter {
     }
 
     public static String join(char c, ArrayList<String> data) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for(String string : data){
-            stringBuilder.append(string);
-            stringBuilder.append(c);
-        }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        return stringBuilder.toString();
+        return join(c, data.toArray(new String[0]));
     }
 
     public static String join(char c, String[] data) {

@@ -33,6 +33,7 @@ public class Server {
     private static final File minions = new File("Minions.csv");
     private static final File spells = new File("Spells.csv");
     private static final File Items = new File("Items.csv");
+    private static String ip;
 
     static {
         try {
@@ -189,6 +190,7 @@ public class Server {
             systemipaddress = "Cannot Execute Properly";
         }
         System.out.println("Public IP Address: " + systemipaddress +"\n");
+        ip =  systemipaddress;
     }
 
     public static File getFile(CardType cardType) {
@@ -261,5 +263,9 @@ public class Server {
 
     public static AccountDatas getAccountDatas(String username) {
         return allAccountDatas.get(username);
+    }
+
+    public static String getIp() {
+        return ip;
     }
 }

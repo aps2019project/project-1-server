@@ -14,4 +14,4 @@ Stock,Number,Gif Number,Name,Price,Health Point,Attack Power,Type of Attack,Atta
 10,13,2,sina,1000,30,3,melee,0,chiz,1,1,power,hp,10,1,1,friend
 10,14,5,name,1000,1,1,melee,0,buffname,1,1,holy,1,1,1,enemy,
 9,15,1,alireza,1000,2,2,melee,0,allahoakbar,2,2,power,ap,2,2,2,friend
-10,151,2,sdsd,1000,1,1,melee,0,hh,2,2,power,hp,2,2,2,friend
+10,16,2,sdsd,1000,1,1,melee,0,hh,2,2,power,ap,10,2,2,friend
