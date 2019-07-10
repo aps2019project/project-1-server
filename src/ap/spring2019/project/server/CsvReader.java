@@ -43,7 +43,7 @@ public class CsvReader {
                 String line = reader.readLine();
                 while ((line = reader.readLine()) != null) {
                     String[] data = line.split(",");
-                    stocks.put(data[2], Integer.parseInt(data[0]));
+                    stocks.put(data[3], Integer.parseInt(data[0]));
                 }
                 fileReader.close();
                 reader.close();
