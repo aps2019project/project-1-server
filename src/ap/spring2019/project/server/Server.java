@@ -2,8 +2,8 @@ package ap.spring2019.project.server;
 
 
 import ap.spring2019.project.logic.Account;
-import ap.spring2019.project.server.Listener;
-import ap.spring2019.project.server.Game;
+import ap.spring2019.project.logic.AuctionCard;
+import ap.spring2019.project.logic.ClientAuctionCard;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,7 +13,6 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,7 +22,7 @@ public class Server {
     private static ServerSocket server;
     private static final HashMap<String, Socket> onlineUsers = new HashMap<>();
     private static final HashMap<String, AccountDatas> allAccountDatas = new HashMap<>();
-
+    private static final ArrayList<AuctionCard> auctionMarket = new ArrayList<>();
     private static final ArrayList<Game> games = new ArrayList<>();
     private static final HashMap<String, Integer> cardStocks = new HashMap<>();
     private static final ArrayList<Account>[] rollUpFlagsGames = new ArrayList[8];
@@ -35,10 +34,15 @@ public class Server {
     private static final File Items = new File("Items.csv");
     private static String ip;
 
+
     static {
         try {
             server = new ServerSocket(PORT);
             foundInternetIP();
+            auctionMarket.add(new AuctionCard("sasd", "iraj"));
+            auctionMarket.add(new AuctionCard("sasd", "bahman"));
+            auctionMarket.add(new AuctionCard("jggjh", "DamoolArc"));
+
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
@@ -67,6 +71,7 @@ public class Server {
             while (Thread.currentThread().isAlive())
                 deleteOfflineUsers();
         });
+
     }
 
     static synchronized HashMap<String, Socket> getOnlineUsers() {
@@ -139,6 +144,38 @@ public class Server {
             }
         }
         return "";
+    }
+
+    static synchronized ArrayList<AuctionCard> getAuctionMarket() {
+        synchronized (auctionMarket) {
+            return auctionMarket;
+        }
+    }
+
+    static synchronized void addAuction(AuctionCard card) {
+        synchronized (auctionMarket) {
+            auctionMarket.add(card);
+        }
+    }
+
+    static synchronized void addNewOffer(String username, int auctionID, int offer) {
+        synchronized (auctionMarket) {
+            for (AuctionCard card: auctionMarket) {
+                if (auctionID != card.getID())
+                    continue;
+                card.setNewOffer(username, offer);
+            }
+        }
+    }
+
+    static synchronized AuctionCard getAuctionByID(int id) {
+        synchronized (auctionMarket) {
+            for(AuctionCard auctionCard: auctionMarket) {
+                if (auctionCard.getID() == id)
+                    return auctionCard;
+            }
+            return null;
+        }
     }
 
     static synchronized ArrayList<Account> getOnlineUsersArrayList() {
