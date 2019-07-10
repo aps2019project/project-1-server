@@ -74,7 +74,7 @@ public class CsvWriter {
             try {
                 FileWriter fileWriter = new FileWriter(file);
                 for (String[] row : datas) {
-                    if (name.equals(row[2])) {
+                    if (name.equals(row[3])) {
                         row[0] = Integer.toString(stock);
                     }
                     fileWriter.append(join(',', row));
