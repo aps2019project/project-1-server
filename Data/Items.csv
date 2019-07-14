@@ -1,5 +1,5 @@
 Stock,Number,Gif Number,Name,Price,Usable - Collectible,Effect,EffectTime
-8,1,1,WisdomCrown,300,usable,increasing mana from roand 3 onwards,-
+7,1,1,WisdomCrown,300,usable,increasing mana from roand 3 onwards,-
 10,2,2,HonorShield,4000,usable,activate holy buff in our hero in passive kind,-
 10,3,3,DamoolArc,3000,usable,just for ranged and hybrid : indreasing hero range 2 units,on attack
 10,4,4,Nooshdaru,0,collectible,increasing joon 6 units,-

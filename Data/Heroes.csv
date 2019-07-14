@@ -1,5 +1,5 @@
 Stock,Number,Gif Number,Name,Price,Health Point,Attack Power,Type of Attack,Attack Range,Spell,MP,Cool Down
-9,1,1,WhiteDemon,8000,50,4,melee,0,Apply power buff with 4 point additional attack damage on himself,1,2
+8,1,1,WhiteDemon,8000,50,4,melee,0,Apply power buff with 4 point additional attack damage on himself,1,2
 10,2,2,Simorgh,9000,50,4,melee,0,Make 8 cell around firable and apply holy buff on himself for 2 round,3,8
 10,3,3,Dragon,8000,50,4,melee,0,Disarm one person,0,1
 10,4,4,Rakhsh,8000,50,4,melee,0,Stun one enemy for 1 round,1,2

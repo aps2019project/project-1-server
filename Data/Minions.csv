@@ -1,5 +1,5 @@
 Stock,Number,Gif Number,Name,Price,Mana,Health Point,Attack Power,Type of Attack,Attack Range,Special Power,SP time
-10,1,1,PersianArcher,300,2,6,4,ranged,7,None,-
+9,1,1,PersianArcher,300,2,6,4,ranged,7,None,-
 10,2,2,PersianSwordsman,400,2,6,4,melee,0,Stun Enemy for next round,On attack
 10,3,3,PersianSpearman,500,1,5,4,hybrid,4,None,-
 10,4,4,PersianKnight,200,4,10,6,melee,0,None,-

@@ -58,7 +58,7 @@ class Listener implements Runnable {
             } else if (command.matches("Create Card \\w+")) {
                 getCardString(CardType.valueOf(command.split(" ")[2]));
             } else if (command.matches("Send Card File \\w+")){
-                sendData(CsvReader.readFile(command.split(" ")[3]));
+                sendArrayList(CsvReader.readRowsIntoString(command.split(" ")[3]));
             } else if (command.matches("Buy Card \\w+ \\w+")){
                 buyCard(CardType.valueOf(command.split(" ")[2]), command.split(" ")[3]);
             } else if (command.matches("Sell Card \\w+ \\w+")){

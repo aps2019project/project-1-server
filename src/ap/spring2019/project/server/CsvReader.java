@@ -26,6 +26,26 @@ public class CsvReader {
         return data;
     }
 
+    public static ArrayList<String> readRowsIntoString(String cardType) {
+        ArrayList<String> data = new ArrayList<String>();
+        File file = Server.getFile(cardType);
+        synchronized (file) {
+            try {
+                FileReader fileReader = new FileReader(file);
+                BufferedReader reader = new BufferedReader(fileReader);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    data.add(line);
+                }
+                fileReader.close();
+                reader.close();
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+        }
+        return data;
+    }
+
     public static void readStock(HashMap<String, Integer> stocks){
         readStock("Heroes", stocks);
         readStock("Minions", stocks);
